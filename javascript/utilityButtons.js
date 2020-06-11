@@ -91,12 +91,12 @@ function changeOption(inputButton) {
 		inputButton.setAttribute("class", "option_on");
 		otherButton = document.getElementById(splitted[0] + other);
 		otherButton.setAttribute("class", "option_off");
-		option = document.getElementById("option_" + splitted[0]);
+		options = document.getElementById("option_" + splitted[0]);
 		if (splitted[1] == "on") {
-			option.value = "true";
+			options.value = "true";
 		}
 		else if (splitted[1] == "off") {
-			option.value = "false";
+			options.value = "false";
 		}
 	}
 	
