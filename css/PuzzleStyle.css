@@ -59,6 +59,7 @@ h1{
   height: 8vmin;
   padding: 0;
   margin: 0;
+  border-style: solid;
 }
 
 .sudoku td {
