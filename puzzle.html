@@ -124,8 +124,8 @@
         </table>
       </td>
       <td class="stats" cellpadding="0" cellspacing="0">
-        <p>Difficulty: TO BE FILLED</p>
-        <p>Problem: TO BE FILLED</p>
+        <p id="diff"></p>
+        <p id="ptype"></p>
         <p>Time Elapsed <span id="minutes"></span>:<span id="seconds"></span></p>
       </td>
       <td width="30%"></td>
@@ -179,15 +179,7 @@
       <td id="checkResult" colspan="2"></td>
     </tr>
   </table>
-  <script>
-    url = location.href;
-    var parameters = url.split("?")[1].split("&");
-    difficulty = parameters[0].split("=")[1];
-    type = parseInt(parameters[1].split("=")[1]);
-    //alert(type);
-    //alert(typeof type);
-
-  </script>
+  <script type="text/javascript" src="./javascript/get_problem.js"></script>
   <script>
   	//count clock
 	  var sec = 0;
@@ -197,226 +189,12 @@
 	      document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));
 	  }, 1000);
  </script>
- <script>
- 	 //set table
- 	 var className = "";
- 	 var problem = "531984702971564806840005191005800767480003953658972419537186240000043957476529138"
- 	 var filledCount = 0;
-
-	 for (let i = 0; i < 81; i++) {
-		 if (i % 3 == 0) {
-			 var col = "y";
-		 }
-		 else {
-			 var col = "n";
-		 }
-		 if (Math.floor(i / 9) % 3 == 0) {
-			 var row = "top";
-		 }
-		 else {
-			 var row = "middle";
-		 }
-		 var id = i.toString();
-		 tcell = document.getElementById("T" + id);
-		 className = row + "_" + col;
-
-		 tcell.setAttribute("class", className);
-		 tcell.setAttribute("onclick", "onclickTd(this)");
-		 tcell.innerHTML = '<input id="I' + id + '" type="button" value=""'
-		 + ' onkeydown="return isNumber(this, event)">';
-
-		 tinput = document.getElementById("I" + id);
-		 var num = parseInt(problem.charAt(i));
-
-		 if (num == 0) {
-			 tinput.setAttribute("maxlength", "1");
-			 tinput.setAttribute("class", "nonfilled_inputBox");
-		 }
-
-		 else {
-			 tcell.setAttribute("class", tcell.getAttribute("class") + " prefilledCell");
-			 tinput.setAttribute("class", "prefilled_inputBox");
-			 tinput.setAttribute("value", num.toString());
-			 tinput.setAttribute("readonly", "");
-			 filledCount++;
-		 }
-	 }
-	 numfilled = filledCount.toString();
-	 document.getElementById("num_filled").value = numfilled;
-</script>
-<script>
-		function onclickTd(td) {
-			selected = document.getElementById("selected");
-			document.getElementById(selected.value).style.background = "";
-			deleteblue();
-			td.style.background = "rgba(255, 218, 0, 0.6)";
-			selected.value = td.id;
-		}
-
-		function deleteblue() {
-			blue = document.getElementById("blue");
-			const id = blue.value.split(" ");
-			for (let i = 1; i <= id[0]; i++) {
-				document.getElementById(id[i]).style.background = "";
-			}
-			blue.value = "0";
-		}
-
-	function isNumber(inputBox, evt) {
-		if (inputBox.getAttribute("class") == "prefilled_inputBox") {
-			return false;
-		}
-	    evt = (evt) ? evt : window.event;
-	    var charCode = (evt.which) ? evt.which : evt.keyCode;
-	    if (charCode == 8 || charCode == 46) {
-	    	if (inputBox.getAttribute("class") == "filled_inputBox") {
-	    		increment_filled_count(-1);
-	    		inputBox.setAttribute("class", "nonfilled_inputBox");
-	    		inputBox.value = "";
-	    		checkSubmit();
-	    	}
-	    	return true;
-	    }
-	    if (charCode < 49 || charCode > 57) {
-	        return false;
-	    }
-	    if (inputBox.getAttribute("class") == "nonfilled_inputBox") {
-	    	increment_filled_count(1);
-		    inputBox.setAttribute("class", "filled_inputBox");
-		    checkSubmit();
-	    }
-	    find_helper((charCode - 48).toString());
-	    inputBox.setAttribute("value", (charCode - 48).toString());
-	    return true;
-	}
-
-	function increment_filled_count(num) {
-		filled_count = document.getElementById("num_filled");
-		var current_count = parseInt(filled_count.value);
-		current_count += num;
-		filled_count.value = current_count.toString();
-
-	}
-
-	function find(number) {
-		selected = document.getElementById("selected");
-		document.getElementById(selected.value).style.background = "";
-		selected.value = "T0"
-		find_helper(number);
-	}
-
-	function find_helper(number) {
-		var elements = "";
-		var counter = 0;
-		blue = document.getElementById("blue");
-		if (blue.value != "0") {
-			deleteblue();
-		}
-		for (let i = 0; i < 81; i++) {
-			var id = i.toString();
-			tinput = document.getElementById("I" + id);
-			if (tinput.value == number
-					&& ("T" + id) != document.getElementById("selected").value) {
-				td = document.getElementById("T" + id);
-				td.style.background = "rgba(10, 140, 255, 0.2)";
-				elements += " " + td.id;
-				counter++;
-			}
-		}
-		elements = counter.toString() + elements;
-		blue.value = elements;
-	}
-
-	function checkSubmit() {
-		submitButton = document.getElementById("submitButton");
-
-		if (document.getElementById("num_filled").value == "81") {
-			submitButton.disabled = false;
-		}
-		else {
-			submitButton.disabled = true;
-		}
-	}
-
-	function setValue(num) {
-		id = document.getElementById("selected").value.substring(1);
-		inputBox = document.getElementById("I" + id);
-		if (inputBox.getAttribute("class") == "prefilled_inputBox") {
-			return;
-		}
-		inputBox.value = num;
-		inputBox.setAttribute("class", "filled_inputBox");
-		find_helper(num)
-	}
-</script>
-<script>
-	function reset() {
-		if(confirm("This resets the entire board. Are you sure you continue?")) {
-			for (let i = 0; i < 81; i++) {
-				var id = i.toString();
-				inputBox = document.getElementById("I" + id);
-				if (inputBox.getAttribute("class") == "filled_inputBox") {
-					inputBox.value = "";
-				}
-			}
-		}
-	}
-
-	function erase() {
-		id = document.getElementById("selected").value.substring(1);
-		inputBox = document.getElementById("I" + id);
-		inputBox.value = "";
-	}
-
-	function check() {
-		var counter = 0;
-		for (let i = 0; i < 81; i++) {
-			var id = i.toString();
-			num = document.getElementById("I" + id).value;
-			solution = document.getElementById("solution").value;
-			if(num != 0 && num != solution[i]) {
-				counter++;
-			}
-		}
-		statement = document.getElementById("checkResult");
-		alert(counter);
-		if (counter == 0) {
-			statement.innerHTML = "Everything Good! You have no mistakes.";
-			statement.setAttribute("class", "result_correct");
-		}
-
-		else if (counter == 1) {
-			statement.innerHTML = "Oops! You have 1 mistake.";
-			statement.setAttribute("class", "result_mistake");
-		}
-		else {
-			var counterString = counter.toString();
-			statement.innerHTML = "Oops! You have " + counterString + " mistakes.";
-			statement.setAttribute("class", "result_mistake");
-		}
-	}
-
-
-	function option() {
-		alert();
-	}
-
-	function submit() {
-		statement = document.getElementById("checkResult");
-		for (let i = 0; i < 81; i++){
-			var id = i.toString();
-			num = document.getElementById("I" + id).value;
-			if (num != solution[i]){
-				statement.setAttribute("class", "result_mistake");
-				statement.innerHTML = "Sorry... You have at least one mistake.";
-				return;
-			}
-		}
-		statement.setAttribute("class", "result_submit_correct");
-		statement.innerHTML = "All Correct! Thanks for playing!";
-	}
-
-</script>
+<script type="text/javascript" src="./javascript/reflect_board.js"></script>
+<script type="text/javascript" src="./javascript/input_number.js"></script>
+  
+<script type="text/javascript" src="./javascript/cellColor.js"></script>
+<script type="text/javascript" src="./javascript/find.js"></script>
+<script type="text/javascript" src="./javascript/utilityButtons.js"></script>
 
 </body>
 </html>
