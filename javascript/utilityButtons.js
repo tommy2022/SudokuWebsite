@@ -39,12 +39,17 @@ function erase() {
 }
 
 function check() {
+	var option = document.getElementById("option_check");
 	var counter = 0;
 	for (let i = 0; i < 81; i++) {
 		var id = i.toString();
-		num = document.getElementById("I" + id).value;
+		inputBox = document.getElementById("I" + id);
+		num = inputBox.value;
 		solution = document.getElementById("solution").value;
 		if(num != 0 && num != solution[i]) {
+			if (option.value == "true") {
+				inputBox.setAttribute("class", "wrong_inputBox");
+			}
 			counter++;
 		}
 	}
@@ -67,7 +72,34 @@ function check() {
 
 
 function option() {
-	alert();
+	document.getElementById("message").style.display = "";
+}
+
+function exit_box() {
+	document.getElementById("message").style.display = "none";
+}
+
+function changeOption(inputButton) {
+	if (inputButton.getAttribute("class") == "option_off"){
+		var splitted = inputButton.id.split("_");
+		if (splitted[1] == "on") {
+			var other = "_off";
+		}
+		if (splitted[1] == "off") {
+			var other = "_on";
+		}
+		inputButton.setAttribute("class", "option_on");
+		otherButton = document.getElementById(splitted[0] + other);
+		otherButton.setAttribute("class", "option_off");
+		option = document.getElementById("option_" + splitted[0]);
+		if (splitted[1] == "on") {
+			option.value = "true";
+		}
+		else if (splitted[1] == "off") {
+			option.value = "false";
+		}
+	}
+	
 }
 
 function submit() {

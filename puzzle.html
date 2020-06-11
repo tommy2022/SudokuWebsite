@@ -10,9 +10,30 @@
 <body>
   <input type="hidden" id="problem" value="">
   <input type="hidden" id="solution" value="">
+  <input type="hidden" id="option_check" value=false>
+  <input type="hidden" id="option_eliminate" value=false>
   <input type="hidden" id="selected" value="T0">
   <input type="hidden" id="blue" value="">
   <input type="hidden" id="num_filled" value="0">
+  <div class="messageBox" id="message" style="display: none;">
+  	<table>
+  		<tr>
+  		  <td>Check for mistakes</td>
+  		  <td><input id="check_on" type="button" value="on" class="option_off" onclick="changeOption(this)"></td>
+  		  <td><input id="check_off" type="button" value="off" class="option_on" onclick="changeOption(this)"></td>
+  		 </tr>
+  		<tr>
+  		  <td>Eliminate number options</td>
+  		  <td><input id="eliminate_on" type="button" value="on" class="option_off" onclick="changeOption(this)"></td>
+  		  <td><input id="eliminate_off" type="button" value="off" class="option_on" onclick="changeOption(this)"></td>
+  		</tr>
+  		<tr>
+  		  <td></td>
+  		  <td colspan="2">
+  		    <input type="button" value="okay" onclick="exit_box()" class="okay_button">
+  		  </td></tr>
+  	</table>
+	</div>
   <header>
     <h1>Sudoku</h1>
     <a href = "./index.jsp" aria-label = "Home" class='home'><i class="fas fa-home" ></i> </a>

@@ -18,6 +18,52 @@ h1{
   height: 2.5vmin;
 }
 
+.messageBox {
+	border-style: outset;
+	border-width: 2px;
+	z-index: 100;
+	position: fixed;
+	width: 350px;
+	height: 150px;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    transform: translate(-50%, -70%);
+    text-align: right;
+}
+
+.messageBox table {
+	width: 100%;
+	height: 100%;
+	padding-right: 35px;
+}
+
+.exit_message {
+	width: 20px;
+	height: 20px;
+	padding: 0;
+}
+
+.okay_button {
+	background-color: rgba(225, 236, 244, 0.8);
+	padding-right: 8px;
+	padding-left: 8px;
+	border-width: 1px;
+	border-style: groove;
+}
+
+.option_on {
+	background-color: rgba(0, 0, 0, 0.13);
+	border-width: 1px;
+	border-style: groove;	
+}
+
+.option_off {
+	background-color: white;
+	border-width: 1px;
+	border-style: groove;	
+}
+
 .page {
   position: absolute;
   top: 13vmin;
@@ -59,11 +105,8 @@ h1{
   height: 8vmin;
   padding: 0;
   margin: 0;
-  border-style: solid;
-}
-
-.sudoku td {
   position: relative;
+  border-style: solid;
 }
 .sudoku td:hover {
   background-color: rgba(0, 128, 255, 0.1);
@@ -138,7 +181,7 @@ h1{
 	background-color: rgba(0, 128, 255, 0.1);
 }
 
-.helpButton:active, .inputButton:active {
+.helpButton:active, .inputButton:active{
   background-color: rgba(0, 128, 255, 0.1);
   box-shadow: 0 2px #666;
   transform: translateY(2px);
@@ -171,13 +214,17 @@ h1{
     background-color: transparent;
 }
 
-.nonfilled_inputBox, .filled_inputBox{
+.nonfilled_inputBox, .filled_inputBox, .wrong_inputBox{
 	outline: none;
     border: solid 0 #fff;
     text-align: center;
     margin: 0;
     width: 24pt;
     background-color: transparent;
+}
+
+.wrong_inputBox {
+	color: rgba(255, 0, 0, 1);
 }
 
 .result_correct{

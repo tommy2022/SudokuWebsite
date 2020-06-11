@@ -9,7 +9,7 @@ function isNumber(inputBox, evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode == 8 || charCode == 46) {
-    	if (inputBox.getAttribute("class") == "filled_inputBox") {
+    	if (inputBox.getAttribute("class") != "nonfilled_inputBox") {
     		increment_filled_count(-1);
     		inputBox.setAttribute("class", "nonfilled_inputBox");
     		inputBox.value = "";
@@ -23,7 +23,7 @@ function isNumber(inputBox, evt) {
     if (charCode < 49 || charCode > 57) {
         return false;
     }
-    if (inputBox.getAttribute("class") == "nonfilled_inputBox") {
+    if (inputBox.getAttribute("class") != "filled_inputBox") {
     	increment_filled_count(1);
 	    inputBox.setAttribute("class", "filled_inputBox");
 	    checkSubmit();
