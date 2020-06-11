@@ -34,7 +34,6 @@ function isNumber(inputBox, evt) {
 }
 
 function setValue(num) {
-	alert();
 	id = document.getElementById("selected").value.substring(1);
 	inputBox = document.getElementById("I" + id);
 	if (inputBox.getAttribute("class") == "prefilled_inputBox") {
