@@ -8,6 +8,11 @@ function onclickTd(td) {
 	deleteblue();
 	td.style.background = "rgba(255, 218, 0, 0.6)";
 	selected.value = td.id;
+	inputId = "I" + td.id.substring(1);
+	input = document.getElementById(inputId);
+	if (input.value != "") {
+		find_helper(input.value);
+	}
 }
 
 function deleteblue() {

@@ -22,7 +22,7 @@ function find_helper(number) {
 		if (tinput.value == number
 				&& ("T" + id) != document.getElementById("selected").value) {
 			td = document.getElementById("T" + id);
-			td.style.background = "rgba(10, 140, 255, 0.2)";
+			td.style.background = "rgba(110, 124, 140, 0.3)";
 			elements += " " + td.id;
 			counter++;
 		}

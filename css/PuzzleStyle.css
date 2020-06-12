@@ -208,7 +208,7 @@ h1{
 	font-weight: bold;
 }
 
-.statusBlock, .num_complete{
+.num_incomplete, .num_complete{
 	display: inline-block;
 	border-radius: 15%;
 	background-color: rgba(0, 0, 0, 0.03);
@@ -218,9 +218,8 @@ h1{
 	background-color: rgba(0, 0, 0, 0.25);
 }
 
-.prefilledCell {
-	background-color: rgba(110, 124, 140, 0.15);
-	pointer-events: none;
+.prefilledCell input{
+	font-weight: bold;
 }
 
 .prefilled_inputBox {
@@ -240,6 +239,7 @@ h1{
     margin: 0;
     width: 24pt;
     background-color: transparent;
+    color: rgba(10, 140, 255, 1);
 }
 
 .wrong_inputBox {

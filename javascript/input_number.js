@@ -12,6 +12,7 @@ function isNumber(inputBox, evt) {
     	if (inputBox.getAttribute("class") != "nonfilled_inputBox") {
     		increment_filled_count(-1);
     		inputBox.setAttribute("class", "nonfilled_inputBox");
+    		reflect_delete(inputBox.value);
     		inputBox.value = "";
     		checkSubmit();
     	}
@@ -22,6 +23,9 @@ function isNumber(inputBox, evt) {
     } 
     if (charCode < 49 || charCode > 57) {
         return false;
+    }
+    if (inputBox.getAttribute("class") == "filled_inputBox") {
+    	reflect_delete(inputBox.value);
     }
     if (inputBox.getAttribute("class") != "filled_inputBox") {
     	increment_filled_count(1);
@@ -39,6 +43,14 @@ function setValue(num) {
 	inputBox = document.getElementById("I" + id);
 	if (inputBox.getAttribute("class") == "prefilled_inputBox") {
 		return;
+	}
+	if (inputBox.getAttribute("class") != "filled_inputBox") {
+    	increment_filled_count(1);
+	    inputBox.setAttribute("class", "filled_inputBox");
+	    checkSubmit();
+    }
+	else {
+		reflect_delete(inputBox.value);
 	}
 	inputBox.value = num;
 	check_complete(num);
@@ -59,4 +71,6 @@ function check_complete(check_num) {
 		
 }
 
-function reflect_delete(num){}
+function reflect_delete(num){
+	document.getElementById("find" + num).setAttribute("class", "num_incomplete");
+}

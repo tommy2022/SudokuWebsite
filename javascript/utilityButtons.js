@@ -31,11 +31,17 @@ function reset() {
 		}
 	}
 	sec = 0;
+	deleteblue();
+	for (let i = 1; i < 10; i++) {
+		reflect_delete(i.toString());
+	}
+	document.getElementById("checkResult").innerHTML = "";
 }
 
 function erase() {
 	id = document.getElementById("selected").value.substring(1);
 	inputBox = document.getElementById("I" + id);
+	reflect_delete(inputBox.value);
 	inputBox.value = "";
 }
 
