@@ -27,6 +27,7 @@ function reset() {
 			inputBox = document.getElementById("I" + id);
 			if (inputBox.getAttribute("class") == "filled_inputBox") {
 				inputBox.value = "";
+				inputBox.setAttribute("class", "nonfilled_inputBox");
 			}
 		}
 	}
