@@ -5,7 +5,7 @@
 function find(number) {
 	selected = document.getElementById("selected");
 	document.getElementById(selected.value).style.background = "";
-	selected.value = "T0"
+	selected.value = "find1"
 	find_helper(number);
 }
 

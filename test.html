@@ -4,42 +4,22 @@
   <meta charset="utf-8" />
   <title></title>
 </head>
+
 <body>
+<p id="test"></p>
   <script>
-    var xhr = new XMLHttpRequest();
-    console.log('onerrorイベント');
-
-    xhr.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-          alert(" ok");
-        }
-    };
-
-    xhr.onerror = function (e) {
-      console.log('onerrorイベント');
-    };
-
-    alert("before open");
-    xhr.open('GET', "./Easy.txt",true);
-    alert("open");
-    xhr.send();
-    alert("send");
-
-//    xhr.onload = function (e) {
-//      if (xhr.readyState === 4) {
-//        if (xhr.status === 200) {
-//          console.log(xhr.responseText);
-//        } else {
-//          console.error(xhr.statusText);
-//        }
-//      }
-
-//    xhr.onreadystatechange = function() {
-//        if(xhr.readyState === 4 && xhr.status === 200) {
-//
-//            alert(xhr.responseText);
-//        }
-//    }
+  httpObj = new XMLHttpRequest();
+  httpObj.open('GET',"../problems/Easy.txt",true);
+  httpObj.send(null);
+  httpObj.onreadystatechange = function(){
+     if ( (httpObj.readyState == 4) && (httpObj.status == 200) ){
+        document.getElementById("test").innerHTML = httpObj.responseText;
+     }
+  };
+  httpObj.onerror = function(){
+	  alert("error");
+  };
+ 
   </script>
 </body>
 </html>

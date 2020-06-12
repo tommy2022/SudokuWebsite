@@ -30,6 +30,7 @@ function isNumber(inputBox, evt) {
     }
     find_helper((charCode - 48).toString());
     inputBox.setAttribute("value", (charCode - 48).toString());
+    check_complete((charCode - 48).toString());
     return true;
 }
 
@@ -40,6 +41,22 @@ function setValue(num) {
 		return;
 	}
 	inputBox.value = num;
+	check_complete(num);
 	inputBox.setAttribute("class", "filled_inputBox");
 	find_helper(num)
 }
+
+function check_complete(check_num) {
+	var count = 0;
+	for (let i = 0; i < 81; i++){
+		if (document.getElementById("I" + i.toString()).value == check_num) {
+			count++
+		}
+	}
+	if (count == 9) {
+		document.getElementById("find" + check_num).setAttribute("class", "num_complete");
+	}
+		
+}
+
+function reflect_delete(num){}

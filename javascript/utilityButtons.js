@@ -21,7 +21,7 @@ function checkSubmit() {
 }
 
 function reset() {
-		if(confirm("This resets the entire board. Are you sure you continue?")) {
+	if(confirm("This resets the entire board. Are you sure you continue?")) {
 		for (let i = 0; i < 81; i++) {
 			var id = i.toString();
 			inputBox = document.getElementById("I" + id);
@@ -30,6 +30,7 @@ function reset() {
 			}
 		}
 	}
+	sec = 0;
 }
 
 function erase() {
@@ -99,7 +100,6 @@ function changeOption(inputButton) {
 			options.value = "false";
 		}
 	}
-	
 }
 
 function submit() {
@@ -115,4 +115,9 @@ function submit() {
 	}
 	statement.setAttribute("class", "result_submit_correct");
 	statement.innerHTML = "All Correct! Thanks for playing!";
+	stopCount();
+	document.getElementById("messageStatement").innerHTML = "Your Record ";
+	document.getElementById("clock").setAttribute("class", "done");
+	document.getElementById("pauseButton").setAttribute("class", "pauseButton_none");
+
 }

@@ -147,7 +147,10 @@
       <td class="stats" cellpadding="0" cellspacing="0">
         <p id="diff"></p>
         <p id="ptype"></p>
-        <p>Time Elapsed <span id="minutes"></span>:<span id="seconds"></span></p>
+        <p id="clock">
+          <span id="message">Time Elapsed </span> <span id="minutes"></span>:<span id="seconds"></span>
+          <button id="pauseButton" class="pauseButton" onclick="pause(this)" value="stop"><i class="fa fa-pause-circle-o"></i></button>
+          </p>
       </td>
       <td width="30%"></td>
     </tr>
@@ -200,15 +203,34 @@
       <td id="checkResult" colspan="2"></td>
     </tr>
   </table>
+  <input type="hidden" id="clock" value="false">
   <script type="text/javascript" src="./javascript/get_problem.js"></script>
   <script>
   	//count clock
 	  var sec = 0;
 	  function pad ( val ) { return val > 9 ? val : "0" + val; }
-	  setInterval( function(){
+	  var timer = setInterval( function(){
 	      document.getElementById("seconds").innerHTML=pad(++sec%60);
 	      document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));
 	  }, 1000);
+	  
+	  function stopCount() {
+		  clearInterval(timer);
+	  }
+	  
+	  function pause(button) {
+		  if (button.value == "stop") {
+			  button.value = "start";
+			  clearInterval(timer);
+		  }
+		  else if (button.value == "start") {
+			  button.value = "stop";
+			  timer = setInterval( function(){
+			      document.getElementById("seconds").innerHTML=pad(++sec%60);
+			      document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));
+			  }, 1000);
+		  }
+	  }
  </script>
 <script type="text/javascript" src="./javascript/reflect_board.js"></script>
 <script type="text/javascript" src="./javascript/input_number.js"></script>

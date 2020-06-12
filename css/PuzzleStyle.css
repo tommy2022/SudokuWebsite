@@ -193,10 +193,29 @@ h1{
     justify-content: space-between;
 }
 
-.statusBlock {
+.pauseButton {
+	background-color: rgb(255, 255, 255);
+	border: none;
+	padding: 0;
+	border-radius: 30%;
+}
+
+.pauseButton_none {
+	display: none;
+}
+
+.done {
+	font-weight: bold;
+}
+
+.statusBlock, .num_complete{
 	display: inline-block;
 	border-radius: 15%;
-	box-shadow: 5% 5% 5% gray;
+	background-color: rgba(0, 0, 0, 0.03);
+}
+
+.num_complete {
+	background-color: rgba(0, 0, 0, 0.25);
 }
 
 .prefilledCell {
