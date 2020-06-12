@@ -222,9 +222,11 @@
 		  if (button.value == "stop") {
 			  button.value = "start";
 			  clearInterval(timer);
+			  button.innerHTML = '<i class="fa fa-play-circle-o" aria-hidden="true"></i>';
 		  }
 		  else if (button.value == "start") {
 			  button.value = "stop";
+			  <i class="fa fa-pause-circle-o"></i>
 			  timer = setInterval( function(){
 			      document.getElementById("seconds").innerHTML=pad(++sec%60);
 			      document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));

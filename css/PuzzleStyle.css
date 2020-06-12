@@ -95,7 +95,7 @@ h1{
   font-family: Arial, sans-serif;
   border-collapse: collapse;
   border-color: rgb(0, 0, 0);
-  border-width: 2px;
+  border-width: 4px;
   font-size: 140%;
   border-style: solid;
 }
@@ -124,17 +124,17 @@ h1{
 }
 
 .top_y {
-	border-left-width: 2px;
-	border-top-width: 2px;
+	border-left-width: 3px;
+	border-top-width: 3px;
 }
 
 .top_n {
 	border-left-width: 1px;
-	border-top-width: 2px;
+	border-top-width: 3px;
 }
 
 .middle_y {
-	border-left-width: 2px;
+	border-left-width: 3px;
 	border-top-width: 1px;
 }
 

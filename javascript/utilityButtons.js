@@ -43,6 +43,7 @@ function erase() {
 	id = document.getElementById("selected").value.substring(1);
 	inputBox = document.getElementById("I" + id);
 	reflect_delete(inputBox.value);
+	inputBox.setAttribute("class", "nonfilled_inputBox");
 	inputBox.value = "";
 }
 
