@@ -37,6 +37,8 @@ function reset() {
 		reflect_delete(i.toString());
 	}
 	document.getElementById("checkResult").innerHTML = "";
+	unselect();
+	document.getElementById("selected").value = "find1";
 }
 
 function erase() {
@@ -45,9 +47,11 @@ function erase() {
 	reflect_delete(inputBox.value);
 	inputBox.setAttribute("class", "nonfilled_inputBox");
 	inputBox.value = "";
+	unselect();
 }
 
 function check() {
+	unselect();
 	var option = document.getElementById("option_check");
 	var counter = 0;
 	for (let i = 0; i < 81; i++) {
@@ -81,6 +85,7 @@ function check() {
 
 
 function option() {
+	unselect();
 	document.getElementById("message").style.display = "";
 }
 
@@ -111,6 +116,7 @@ function changeOption(inputButton) {
 }
 
 function submit() {
+	unselect();
 	statement = document.getElementById("checkResult");
 	for (let i = 0; i < 81; i++){
 		var id = i.toString();

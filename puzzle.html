@@ -12,7 +12,7 @@
   <input type="hidden" id="solution" value="">
   <input type="hidden" id="option_check" value=false>
   <input type="hidden" id="option_eliminate" value=false>
-  <input type="hidden" id="selected" value="T0">
+  <input type="hidden" id="selected" value="find1">
   <input type="hidden" id="blue" value="">
   <input type="hidden" id="num_filled" value="0">
   <div class="messageBox" id="message" style="display: none;">
@@ -56,7 +56,7 @@
 		  </tr>
 		  <tr>
 			  <td id="T9"></td>
-	      <td id="T10"></td>
+	 	      <td id="T10"></td>
 			  <td id="T11"></td>
 			  <td id="T12"></td>
 			  <td id="T13"></td>
@@ -80,7 +80,7 @@
 			  <td id="T27"></td>
 			  <td id="T28"></td>
 			  <td id="T29"></td>
-	      <td id="T30"></td>
+		      <td id="T30"></td>
 			  <td id="T31"></td>
 			  <td id="T32"></td>
 			  <td id="T33"></td>
@@ -116,7 +116,7 @@
 			  <td id="T57"></td>
 			  <td id="T58"></td>
 			  <td id="T59"></td>
-	      <td id="T60"></td>
+		      <td id="T60"></td>
 			  <td id="T61"></td>
 			  <td id="T62"></td>
 		  </tr>
@@ -128,7 +128,7 @@
 			  <td id="T67"></td>
 			  <td id="T68"></td>
 			  <td id="T69"></td>
-	      <td id="T70"></td>
+		      <td id="T70"></td>
 			  <td id="T71"></td>
 		  </tr>
 		  <tr>
@@ -204,6 +204,11 @@
     </tr>
   </table>
   <input type="hidden" id="clock" value="false">
+  <script type="text/javascript" src="./javascript/random/randomCreator.js"></script>
+  <script type="text/javascript" src="./javascript/random/linkedlist.js"></script>
+  <script type="text/javascript" src="./javascript/random/checkSolvable.js"></script>
+  <script type="text/javascript" src="./javascript/random/makeRandom.js"></script>
+  <script type="text/javascript" src="./javascript/reflect_board.js"></script>
   <script type="text/javascript" src="./javascript/get_problem.js"></script>
   <script>
   	//count clock
@@ -226,7 +231,7 @@
 		  }
 		  else if (button.value == "start") {
 			  button.value = "stop";
-			  <i class="fa fa-pause-circle-o"></i>
+			  button.innerHTML = '<i class="fa fa-pause-circle-o" aria-hidden="true"></i>';
 			  timer = setInterval( function(){
 			      document.getElementById("seconds").innerHTML=pad(++sec%60);
 			      document.getElementById("minutes").innerHTML=pad(parseInt(sec/60,10));
@@ -235,7 +240,7 @@
 	  }
 	  
  </script>
-<script type="text/javascript" src="./javascript/reflect_board.js"></script>
+
 <script type="text/javascript" src="./javascript/input_number.js"></script>
   
 <script type="text/javascript" src="./javascript/cellColor.js"></script>

@@ -3,9 +3,7 @@
  */
 
 function find(number) {
-	selected = document.getElementById("selected");
-	document.getElementById(selected.value).style.background = "";
-	selected.value = "find1"
+	unselect();
 	find_helper(number);
 }
 

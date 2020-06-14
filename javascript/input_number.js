@@ -73,4 +73,5 @@ function check_complete(check_num) {
 
 function reflect_delete(num){
 	document.getElementById("find" + num).setAttribute("class", "num_incomplete");
+	check_complete(num);
 }
