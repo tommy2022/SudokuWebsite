@@ -46,22 +46,24 @@ function reset() {
 }
 
 function erase() {
-	id = document.getElementById("selected").value.substring(1);
-	inputBox = document.getElementById("I" + id);
-	if (inputBox.value != "" && input.getAttribute("class") != "prefilled_inputBox") {
-		increment_filled_count(-1);
-		var temp = inputBox.value;
-		inputBox.value = "";
-		reflect_delete(temp);
-		inputBox.setAttribute("class", "nonfilled_inputBox");
-
+	if (document.getElementById("selected").value != "find1"){
+		id = document.getElementById("selected").value.substring(1);
+		inputBox = document.getElementById("I" + id);
+		if (inputBox.value != "" && input.getAttribute("class") != "prefilled_inputBox") {
+			increment_filled_count(-1);
+			var temp = inputBox.value;
+			inputBox.value = "";
+			reflect_delete(temp);
+			inputBox.setAttribute("class", "nonfilled_inputBox");
+	
+		}
+		selected = document.getElementById("selected");
+		if (selected.value != "find1") {
+			delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
+		}
+		unselect();
+		deleteshaded();
 	}
-	selected = document.getElementById("selected");
-	if (selected.value != "find1") {
-		delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
-	}
-	unselect();
-	deleteshaded();
 }
 
 function check() {
