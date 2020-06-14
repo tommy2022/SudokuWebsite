@@ -32,25 +32,43 @@ function reset() {
 		}
 	}
 	sec = 0;
-	deleteblue();
+	deleteshaded();
 	for (let i = 1; i < 10; i++) {
 		reflect_delete(i.toString());
 	}
 	document.getElementById("checkResult").innerHTML = "";
+	selected = document.getElementById("selected");
+	if (selected.value != "find1") {
+		delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
+	}
 	unselect();
-	document.getElementById("selected").value = "find1";
+	selected.value = "find1";
 }
 
 function erase() {
 	id = document.getElementById("selected").value.substring(1);
 	inputBox = document.getElementById("I" + id);
-	reflect_delete(inputBox.value);
-	inputBox.setAttribute("class", "nonfilled_inputBox");
-	inputBox.value = "";
+	if (inputBox.value != "" && input.getAttribute("class") != "prefilled_inputBox") {
+		increment_filled_count(-1);
+		var temp = inputBox.value;
+		inputBox.value = "";
+		reflect_delete(temp);
+		inputBox.setAttribute("class", "nonfilled_inputBox");
+
+	}
+	selected = document.getElementById("selected");
+	if (selected.value != "find1") {
+		delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
+	}
 	unselect();
+	deleteshaded();
 }
 
 function check() {
+	selected = document.getElementById("selected");
+	if (selected.value != "find1") {
+		delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
+	}
 	unselect();
 	var option = document.getElementById("option_check");
 	var counter = 0;
@@ -81,12 +99,18 @@ function check() {
 		statement.innerHTML = "Oops! You have " + counterString + " mistakes.";
 		statement.setAttribute("class", "result_mistake");
 	}
+	deleteshaded();
 }
 
 
 function option() {
+	selected = document.getElementById("selected");
+	if (selected.value != "find1") {
+		delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
+	}
 	unselect();
 	document.getElementById("message").style.display = "";
+	deleteshaded();
 }
 
 function exit_box() {
@@ -116,6 +140,10 @@ function changeOption(inputButton) {
 }
 
 function submit() {
+	selected = document.getElementById("selected");
+	if (selected.value != "find1") {
+		delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
+	}
 	unselect();
 	statement = document.getElementById("checkResult");
 	for (let i = 0; i < 81; i++){
@@ -133,5 +161,5 @@ function submit() {
 	document.getElementById("messageStatement").innerHTML = "Your Record ";
 	document.getElementById("clock").setAttribute("class", "done");
 	document.getElementById("pauseButton").setAttribute("class", "pauseButton_none");
-
+	deleteshaded();
 }

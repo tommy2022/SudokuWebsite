@@ -6,19 +6,23 @@
   <title>Puzzle_TOBEFILLED %></title>
   <link rel="stylesheet" href ="css/PuzzleStyle.css" />
   <script src="https://kit.fontawesome.com/214bbd63e6.js" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" href="">
 </head>
 <body>
-  <input type="hidden" id="problem" value="">
-  <input type="hidden" id="solution" value="">
-  <input type="hidden" id="option_check" value=false>
-  <input type="hidden" id="option_eliminate" value=false>
-  <input type="hidden" id="selected" value="find1">
-  <input type="hidden" id="blue" value="">
-  <input type="hidden" id="num_filled" value="0">
+  <div>
+	  <input type="hidden" id="problem" value="">
+	  <input type="hidden" id="solution" value="">
+	  <input type="hidden" id="option_check" value=false>
+	  <input type="hidden" id="option_eliminate" value=false>
+	  <input type="hidden" id="selected" value="find1">
+	  <input type="hidden" id="shaded" value="">
+	  <input type="hidden" id="num_filled" value="0">
+	  <input type="hidden" id="shaded_num" value="">
+  </div>
   <div class="messageBox" id="message" style="display: none;">
   	<table>
   		<tr>
-  		  <td>Check for mistakes</td>
+  		  <td>Show mistakes when checked</td>
   		  <td><input id="check_on" type="button" value="on" class="option_off" onclick="changeOption(this)"></td>
   		  <td><input id="check_off" type="button" value="off" class="option_on" onclick="changeOption(this)"></td>
   		 </tr>
@@ -36,7 +40,7 @@
 	</div>
   <header>
     <h1>Sudoku</h1>
-    <a href = "./index.jsp" aria-label = "Home" class='home'><i class="fas fa-home" ></i> </a>
+    <a href = "./" aria-label = "Home" class='home'><i class="fas fa-home" ></i> </a>
     <hr />
   </header>
   <table class='page'>
@@ -157,17 +161,17 @@
     <tr>
       <td height="60%">
 	 	<table class="inputBox" cellpadding="0" cellspacing="0">
-	 	<tr> <td><input class="inputButton" type="button" value="1" onclick="setValue(this.value)"></td>
-	 		<td><input class="inputButton" type="button" value="2" onclick="setValue(this.value)"></td>
-	 		<td><input class=inputButton type="button" value="3" onclick="setValue(this.value)"></td>
+	 	<tr> <td><input id="Button1" class="inputButton" type="button" value="1" onclick="setValue(this.value)"></td>
+	 		<td><input id="Button2" class="inputButton" type="button" value="2" onclick="setValue(this.value)"></td>
+	 		<td><input id="Button3" class=inputButton type="button" value="3" onclick="setValue(this.value)"></td>
 	 	</tr>
-	 	<tr> <td><input class="inputButton" type="button" value="4" onclick="setValue(this.value)"></td>
-	 		<td><input class="inputButton" type="button" value="5" onclick="setValue(this.value)"></td>
-	 		<td><input class="inputButton" type="button" value="6" onclick="setValue(this.value)"></td>
+	 	<tr> <td><input id="Button4" class="inputButton" type="button" value="4" onclick="setValue(this.value)"></td>
+	 		<td><input id="Button5" class="inputButton" type="button" value="5" onclick="setValue(this.value)"></td>
+	 		<td><input id="Button6" class="inputButton" type="button" value="6" onclick="setValue(this.value)"></td>
 	 	</tr>
-	 	<tr> <td><input class="inputButton" type="button" value="7" onclick="setValue(this.value)"></td>
-	 		<td><input class="inputButton" type="button" value="8" onclick="setValue(this.value)"></td>
-	 		<td><input class="inputButton" type="button" value="9" onclick="setValue(this.value)"></td>
+	 	<tr> <td><input id="Button7" class="inputButton" type="button" value="7" onclick="setValue(this.value)"></td>
+	 		<td><input id="Button8" class="inputButton" type="button" value="8" onclick="setValue(this.value)"></td>
+	 		<td><input id="Button9" class="inputButton" type="button" value="9" onclick="setValue(this.value)"></td>
 	 	</tr>
 	 	</table>
 	   </td>

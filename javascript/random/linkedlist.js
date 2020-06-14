@@ -27,17 +27,18 @@ class LinkedList {
   		this.head = node;
   	else {
   		var current = this.head;
-      if (current.element > element) {
-        node.next = current;
-        this.head = node;
-        this.size++;
-        return;
-      }
+  		if (current.element > element) {
+	        node.next = current;
+	        this.head = node;
+	        this.size++;
+	        return;
+  		}
   		// iterate to the correct position
   		while (current.next && current.next.element < element) {
   			current = current.next;
   		}
-
+  		if (current.element == element) {return;}
+  		if (current.next && current.next.element == element) {return;}
   		//set next. next = null if at end
       node.next = current.next
       // add node
@@ -83,7 +84,10 @@ class LinkedList {
       if(this.head == null) {
         return;
       }
-      return this.head.element;
+      var temp = this.head;
+      this.head = this.head.next;
+      this.size--;
+      return temp.element;
     }
     //return size
     get_size() {

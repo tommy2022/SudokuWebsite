@@ -3,16 +3,21 @@
  */
 
 function find(number) {
+	selected = document.getElementById("selected");
+	if (selected.value != "find1") {
+		delete_highlight_rowcol(parseInt(selected.value.substring(1),10));
+	}
 	unselect();
 	find_helper(number);
+	
 }
 
 function find_helper(number) {
 	var elements = "";
 	var counter = 0;
-	blue = document.getElementById("blue");
-	if (blue.value != "0") {
-		deleteblue();
+	shaded = document.getElementById("shaded");
+	if (shaded.value != "0") {
+		deleteshaded();
 	}
 	for (let i = 0; i < 81; i++) {
 		var id = i.toString();
@@ -26,5 +31,6 @@ function find_helper(number) {
 		}
 	}
 	elements = counter.toString() + elements;
-	blue.value = elements;
+	shaded.value = elements;
+	document.getElementById("shaded_num").value = number;
 }

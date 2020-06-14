@@ -3,19 +3,24 @@
  */
 
 function isNumber(inputBox, evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode >= 37 && charCode <= 40) {
+    	move_cell(charCode);
+    }
 	if (inputBox.getAttribute("class") == "prefilled_inputBox") {
 		return false;
 	}
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
     if (charCode == 8 || charCode == 46) {
-    	if (inputBox.getAttribute("class") != "nonfilled_inputBox") {
+    	/*if (inputBox.getAttribute("class") != "nonfilled_inputBox") {
     		increment_filled_count(-1);
     		inputBox.setAttribute("class", "nonfilled_inputBox");
-    		reflect_delete(inputBox.value);
+    		var temp = inputBox.value;
     		inputBox.value = "";
+    		reflect_delete(temp);
     		checkSubmit();
-    	}
+    	}*/
+    	erase();
     	return true;
     }
     if (charCode >= 97 && charCode <= 105) {
@@ -24,6 +29,7 @@ function isNumber(inputBox, evt) {
     if (charCode < 49 || charCode > 57) {
         return false;
     }
+    /*
     if (inputBox.getAttribute("class") == "filled_inputBox") {
     	reflect_delete(inputBox.value);
     }
@@ -35,6 +41,8 @@ function isNumber(inputBox, evt) {
     find_helper((charCode - 48).toString());
     inputBox.setAttribute("value", (charCode - 48).toString());
     check_complete((charCode - 48).toString());
+    */
+    setValue(charCode - 48);
     return true;
 }
 
@@ -56,6 +64,27 @@ function setValue(num) {
 	check_complete(num);
 	inputBox.setAttribute("class", "filled_inputBox");
 	find_helper(num)
+}
+
+function move_cell(char) {
+	selected = document.getElementById("selected");
+	var index = parseInt(selected.value.substring(1));
+	if (char == 37 && index != 0) {
+		index--;
+		onclickTd(document.getElementById("T" + index.toString()));
+	}
+	else if (char == 38 && index > 8) {
+		index -= 9;
+		onclickTd(document.getElementById("T" + index.toString()));
+	}
+	else if (char == 39 && index != 80) {
+		index++;
+		onclickTd(document.getElementById("T" + index.toString()));
+	}
+	else if (char == 40 && index < 72) {
+		index += 9;
+		onclickTd(document.getElementById("T" + index.toString()));
+	}
 }
 
 function check_complete(check_num) {
