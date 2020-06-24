@@ -1,6 +1,0 @@
-INDEX VERSION 1.4+C:\Users\tom11\Desktop\SudokuWeb\SudokuWebsite\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-2355927774.index
-2136968085.index
-2664393314.index
-2960665053.index
-3415783802.index
