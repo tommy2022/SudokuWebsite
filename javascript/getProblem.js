@@ -7,10 +7,9 @@ url = location.href;
   document.getElementById("ptype").innerHTML = "Problem: " + question_type;
 
   if (question_type == "Random") {
-    var text = createRandom(difficulty);
-    var returned = text.split("\n");
-    document.getElementById("problem").value = returned[0];
-      document.getElementById("solution").value = returned[1];
+    var output = createRandom(difficulty); //returns object with problem and solution
+    document.getElementById("problem").value = output.problem;
+      document.getElementById("solution").value = output.solution;
       set_table();
   }
 

@@ -5,7 +5,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Puzzle_TOBEFILLED %></title>
+  <title>Puzzle_TOBEFILLED</title>
   <link rel="stylesheet" href ="css/PuzzleStyle.css" />
   <script src="https://kit.fontawesome.com/214bbd63e6.js" crossorigin="anonymous"></script>
   <link rel="shortcut icon" href="">

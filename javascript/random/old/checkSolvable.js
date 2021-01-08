@@ -29,8 +29,8 @@ class checkSolvable {
   solve() {
     while (this.solvable == false) {
       var any_changes = false;
-      any_changes = this.solve_method1();
-      any_changes = this.solve_method2();
+      any_changes = this.solve_method1() ? true : any_changes;
+      any_changes = this.solve_method2() ? true : any_changes;
       this.update_solvable();
       //no changes made, but still unsolved
       if (any_changes == false && this.solvable == false) {
