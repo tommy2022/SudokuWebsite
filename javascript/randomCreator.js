@@ -12,6 +12,7 @@ const SEED = [
   [9, 7, 8, 3, 1, 2, 6, 4, 5],
 ]
 const NUM_REPS = 30;
+const DiffEnum = Object.freeze({"Easy":1, "Medium":2, "Hard":3});
 
 
 function randomInt(max) {
@@ -22,16 +23,34 @@ function check_pow2(n) {
   return (Math.ceil(Math.log2(n)) == Math.floor(Math.log2(n)));
 }
 
+function get_base10(n) {
+  if (!check_pow2(n)) console.log("???? base not 10");
+  return Math.log2(n);
+}
+
 class RandomCreator {
-  constructor () {
+  constructor (difficulty) {
     this.problem = new Array(DIMENSION);
     this.solution = new Array(DIMENSION);
+
+    this.difficulty = DiffEnum[difficulty];
 
     this.row_mem = new Array(DIMENSION).fill(COMPLETE);
     this.col_mem = new Array(DIMENSION).fill(COMPLETE);
     this.squ_mem = new Array(DIMENSION).fill(COMPLETE);
-    this.curr_row = 0;
-    this.curr_col = 0;
+
+    if (this.difficulty != DiffEnum.Easy) {
+      this.row_count = new Array(DIMENSION);
+      this.col_count = new Array(DIMENSION);
+      this.squ_count = new Array(DIMENSION);
+
+      for (let i = 0; i < DIMENSION; i++) {
+        this.row_count[i] = new Array(DIMENSION + 1).fill(0);
+        this.col_count[i] = new Array(DIMENSION + 1).fill(0);
+        this.squ_count[i] = new Array(DIMENSION + 1).fill(0);
+      }
+    }
+
     this.num_solutions = 0;
 
     this.sum_1_thru_dim = 0;
@@ -39,6 +58,7 @@ class RandomCreator {
     for (let i = 0; i < DIMENSION; i++) {
       this.problem[i] = new Array(DIMENSION).fill(0);
       this.solution[i] = new Array(DIMENSION).fill(null);
+
       this.sum_1_thru_dim += (i + 1); //sum int from 1 to 9
       this.sum_sq_1_thru_dim += (i + 1) * (i + 1); //sum squares of 1 to 9
     }
@@ -53,10 +73,17 @@ class RandomCreator {
     }
     return rtn;
   }
+
+  calc_squ(row, col) {
+    return 3 * Math.floor(row / 3) + Math.floor(col / 3);
+  }
   
   createRandom() {
     this.problem = SEED;
-    //this.randomFilled();
+    //this.start_index = 17; //randomInt(50);
+    //this.index = this.start_index;
+    //this.numbers = "1220086320530284807273410713477724565788760441751850878026162183056600821501332258626332887817355532035220160155626660450437602181867750474431850473327201516551277137006600614464382884820462375476270754437474770727236633075030646867220078663821726726632122072112250542223020146824220333656373434320263876215085732081875060230700821245308387485286484315858571878470518080418580388200435302783353648446302454804634023530402846453366122611681553447378330415673735337034115762888580687418677618742310450778827756450162066676135445071024113484803468716404243115740334481674077712576518338831117440266654284241463271773864723651538470865732345114860746668680218587667662373755420186272556163021746620030461014054266882508781506270126043152714037875851068666328043475711771416653187484148226180625420157423400273645200404845311278542137307624673708766420025044787107760232722231434682570515722238206605387168380835285823766021851826137886773081844630012312818012156768672300363083171203210843335065606400854144825586726368844177182731412267002106214757561363558361862558752821145142040487216257320615082630384300786733508753341358777756601151156562152203305523473588088735776755587613802618642244652164648203808880012018762376118311582852767030325621332621515658273440663876084282588037208665226721286661231348078757021825417440211270747542421617630365742550560042570378643715248668560574813725034358206547752630066168155607664006077753372238215582685826108054870624431556503261504701484777856068353054868208136220343222041614074100608751526506857601866143834231630765427570557545230078480278668084023313024";
+    this.randomFilled();
 
     return this.stringifyProblem();
   }
@@ -162,57 +189,70 @@ class RandomCreator {
     }
   }
 
-  get_num_fill(difficulty) {
+  get_num_fill() {
     var filledCount = randomInt(3);
-    if (difficulty == "Easy") {
+    if (this.difficulty == DiffEnum.Easy) {
       filledCount += 45;
     }
-    else if (difficulty == "Medium") {
+    else if (this.difficulty == DiffEnum.Medium) {
       filledCount += 37;
     }
-    else if (difficulty == "Hard") {
+    else if (this.difficulty == DiffEnum.Hard) {
       filledCount += 30;
     }
     return filledCount;
   }
 
-  createProblem(difficulty) {
-    this.num_filled = 81;
-    this.fill_target = this.get_num_fill(difficulty);
+  non_random() {
+    //let row = this.numbers[this.index++];
+    //let col = this.numbers[this.index++];
+    return [randomInt(9), randomInt(9)];
+    return [row, col];
+  }
+
+  createProblem() {
+
+    this.countkeeper = 0;
+    this.level = DiffEnum.Easy; //use this to identify the level of problem
+    this.num_filled = DIMENSION * DIMENSION;
+    this.fill_target = this.get_num_fill();
     //can always be solved until 4 empty spots
     const initial_empty = 4;
+    var row, col;
     for (let i = 0;i < initial_empty; i++) {
-      let row = randomInt(9);
-      let col = randomInt(9);
-      //let row = parseInt(this.thingi[this.currIndex++]);
-      //let col = parseInt(this.thingi[this.currIndex++]);
-      while (this.problem[row][col] == 0) {
-        row = randomInt(9);
-        col = randomInt(9);
-        //row = parseInt(this.thingi[this.currIndex++]);
-        //col = parseInt(this.thingi[this.currIndex++]);
-      }
+      do {
+        [row, col] = this.non_random();
+        //row = randomInt(9);
+        //col = randomInt(9);
+      } while (this.problem[row][col] == 0);
       this.problem[row][col] = 0;
     }
-    this.min_num = 81;
     while (!this.drop());
-    console.log(this.min_num);
+    debugger;
     return this.stringifyProblem();
   }
 
 
+  /* Level of difficulty must match the required difficulty
+   * Easy: one use algorithm 1
+   * Medium: Must use at least algorithm 2 once
+   * Hard: Must use backtracking to solve at least 1.
+   */
   drop() {
-    this.min_num = (this.num_filled < this.min_num) ? this.num_filled : this.min_num;
-    if (this.num_filled == this.fill_target) return true;
+    this.countkeeper++;
+    if (this.num_filled == this.fill_target) {
+      return (this.level == this.difficulty) ? true : false; //explanation above
+    }
     this.num_filled--;
+    var row, col;
     for (let reps = 0; reps < NUM_REPS; reps++) {
       this.num_solutions = 0;
-      let row = randomInt(9);
-      let col = randomInt(9);
-      while (this.problem[row][col] == 0) { 
-        row = randomInt(9);
-        col = randomInt(9);
-      }
+      do {
+        [row, col] = this.non_random();
+        //row = randomInt(9);
+        //col = randomInt(9);
+      } while (this.problem[row][col] == 0);
+
       let val = this.problem[row][col];
       this.problem[row][col] = 0;
       if (this.try_solve()) {
@@ -224,7 +264,7 @@ class RandomCreator {
     return false;
   }
 
-  try_solve() {
+  reset_eliminate_solver() {
     for (let i = 0; i < DIMENSION; i++) {
       for (let j = 0; j < DIMENSION; j++) {
         if (this.problem[i][j] != 0) {
@@ -240,25 +280,71 @@ class RandomCreator {
           } 
         }
       }
-      this.row_mem[i] = COMPLETE;
-      this.col_mem[i] = COMPLETE;
-      this.squ_mem[i] = COMPLETE;
     }
-    //debugger;
+    this.row_mem.fill(COMPLETE);
+    this.col_mem.fill(COMPLETE);
+    this.squ_mem.fill(COMPLETE);
+  }
+
+  reset_unique_solver() {
+    for (let i = 0; i < DIMENSION; i++) {
+      this.row_count[i].fill(0);
+      this.col_count[i].fill(0);
+      this.squ_count[i].fill(0);
+    }
+  } 
+
+  //for debugging
+  check() {
+    for (let i = 0; i < DIMENSION; i++) {
+      for (let j = 0; j < DIMENSION; j++) {
+        if (!this.solution[i][j].filled && check_pow2(this.solution[i][j].val)) {
+          debugger;
+        }
+      }
+    }
+  }
+
+  try_solve() {
+
+    this.level = DiffEnum.Easy;
+    this.reset_eliminate_solver();
     this.solve_eliminate_setup();
     this.solve_eliminate();
-    return this.check_complete();
+    this.check(); //for debugging
+    if (this.check_complete()) {
+      return true;
+    }
+    if (this.difficulty == DiffEnum.Easy) return false;
+
+    this.level = DiffEnum.Medium;
+    do {
+      this.unique_solver_change = false;
+      this.reset_unique_solver();
+      this.solve_unique_setup();
+      this.solve_unique();
+      this.solve_eliminate();
+    } while(this.unique_solver_change)
+
+    if (this.check_complete()) {
+      return true;
+    }
+    if (this.difficulty == DiffEnum.Medium) return false;
+
+    this.level = DiffEnum.Hard;
+    this.backtrack();
+    return (this.num_solutions == 1) ? true : false;
   }
 
-  remove(row, col, num) {
+  remove(row, col, bin_num, squ = this.calc_squ(row, col)) {
     this.solution[row][col].val = 
-      this.solution[row][col].val & ~num;
+      this.solution[row][col].val & ~bin_num;
   }
 
-  remove_mem(row, col, num = this.solution[row][col].val, squ = this.calc_squ(row, col)) {
-    this.row_mem[row] -= num;
-    this.col_mem[col] -= num;
-    this.squ_mem[squ] -= num;
+  remove_mem(row, col, bin_num = this.solution[row][col].val, squ = this.calc_squ(row, col)) {
+    this.row_mem[row] -= bin_num;
+    this.col_mem[col] -= bin_num;
+    this.squ_mem[squ] -= bin_num;
   }
 
   solve_eliminate_setup() {
@@ -267,33 +353,33 @@ class RandomCreator {
       for (let j = 0; j < DIMENSION; j++) {
         //if this block is filled
         if (this.solution[i][j].filled) {
-          let num = this.solution[i][j].val;
-          this.remove_mem(i, j, num);
+          let bin_num = this.solution[i][j].val;
+          this.remove_mem(i, j, bin_num);
           
           for (let k = 0; k < DIMENSION; k++) {
             if (!this.solution[i][k].filled) {
               //delete from row
-              this.remove(i, k, num);
+              this.remove(i, k, bin_num);
             }
             if (!this.solution[k][j].filled) {
               //delete from column
-              this.remove(k, j, num);
+              this.remove(k, j, bin_num);
             }
-            this.remove_from_square(i, j, num);
+            this.remove_from_square(i, j, bin_num);
           }
         }
       }
     }
   }
 
-  remove_from_square(row, col, num) {
+  remove_from_square(row, col, bin_num) {
     const row_start = Math.floor(row / 3) * 3;
     const col_start = Math.floor(col / 3) * 3;
 
     for (let i = row_start; i < row_start + DIMENSION / 3; i++) {
       for (let j = col_start; j < col_start + DIMENSION / 3; j++) {
         if　(!this.solution[i][j].filled) {
-          this.remove(i, j, num);
+          this.remove(i, j, bin_num);
         }
       }
     }
@@ -307,27 +393,27 @@ class RandomCreator {
     }
   }
 
-  set_value(row, col, num = this.solution[row][col].val, squ = this.calc_squ(row, col)) {
+  set_value(row, col, bin_num = this.solution[row][col].val, squ = this.calc_squ(row, col)) {
     if(this.solution[row][col].filled || !check_pow2(this.solution[row][col].val)) return;
-    if (!this.check_invariant(row, col, num, squ)) {
+    if (!this.check_invariant(row, col, bin_num, squ)) {
       debugger;
       throw "???? something wrong";
     }
-    this.remove_mem(row, col);
+    this.remove_mem(row, col, bin_num, squ);
     this.solution[row][col].filled = true;
     for (let i = 0; i < DIMENSION; i++) {
       //remove from column
       if (i != row) {
-        this.remove(i, col, num);
+        this.remove(i, col, bin_num);
         if (check_pow2(this.solution[i][col].val)) {
           this.set_value(i, col, this.solution[i][col].val)
         } 
       }
       //remove from row
       if (i != col) {
-        this.remove(row, i, num);
+        this.remove(row, i, bin_num);
         if (check_pow2(this.solution[row][i].val)) {
-          this.set_value(i, col, this.solution[i][col].val)
+          this.set_value(row, i, this.solution[row][i].val)
         } 
       }
     }
@@ -336,22 +422,141 @@ class RandomCreator {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (row_start + i != row && col_start + j != col) {
-          this.remove(row_start + i, col_start + j, num);
+          this.remove(row_start + i, col_start + j, bin_num);
           if (check_pow2(this.solution[row_start + i][col_start + j].val)) {
-            this.set_value(i, col, this.solution[row_start + i][col_start + j].val);
+            this.set_value(row_start + i, col_start + j, this.solution[row_start + i][col_start + j].val);
           } 
         }
       }
     }
   }
 
-  solve() {
-    this.curr_row = randomInt(9);
-    this.curr_col = randomInt(9);
-    let num = randomInt(9) + 1;
-    this.set(this.calc_squ(this.curr_row, this.curr_col), num);
-    this.fillBoard();
+  solve_unique_setup() {
+    for (let i = 0; i < DIMENSION; i++) {
+      for (let j = 0; j < DIMENSION; j++) {
+        const val = this.solution[i][j].val;
+        const squ = this.calc_squ(i, j);
+        if (this.solution[i][j].filled == true) {
+          this.row_count[i][get_base10(val)] = DIMENSION;   //max number
+          this.col_count[j][get_base10(val)] = DIMENSION;   //max number
+          this.squ_count[squ][get_base10(val)] = DIMENSION; //max number
+        }
+        else {
+          for (let num = 1; num <= DIMENSION; num++) {
+            if (this.contains(this.solution[i][j].val, num)) {
+              this.row_count[i][num]++;
+              this.col_count[j][num]++;
+              this.squ_count[squ][num]++;
+            }
+
+            //
+            if (this.row_count[i][num] > 9) {
+              debugger;
+              console.log("sth wrong. rowcount over 9");
+            }
+            if (this.col_count[j][num] > 9) {
+              debugger;
+              console.log("sth wrong. colcount over 9");
+            }
+            if (this.squ_count[squ][num] > 9) {
+              debugger;
+              console.log("sth wrong. squcount over 9");
+            } 
+            //
+          }
+        }
+      }
+    }
   }
+
+  solve_unique() {
+    for (let i = 0; i < DIMENSION; i++) {
+      for (let num = 1; num <= DIMENSION; num++) {
+        if (this.row_count[i][num] == 0) {
+          console.log("error, row_count is 0");
+        }
+        if (this.col_count[i][num] == 0) {
+          console.log("error, col_count is 0");
+        }
+        if (this.squ_count[i][num] == 0) {
+          console.log("error, squ_count is 0");
+        }
+
+        if (this.row_count[i][num] == 1) {
+          this.find_and_fill_row(i, num);
+          this.unique_solver_change = true;
+        }
+        if (this.col_count[i][num] == 1) {
+          this.find_and_fill_col(i, num);
+          this.unique_solver_change = true;
+        }
+        if (this.squ_count[i][num] == 1) {
+          this.find_and_fill_squ(i, num);
+          this.unique_solver_change = true;
+        }
+      }
+    }
+  }
+
+  find_and_fill_row(row, num) {
+    for (let col = 0; col < DIMENSION; col++) {
+      if (this.contains(this.solution[row][col].val, num)) {
+        if (this.solution[row][col].filled) debugger;
+        this.unique_set_val(row, col, 1 << num);
+      }
+    }
+  }
+
+  find_and_fill_col(col, num) {
+    for (let row = 0; row < DIMENSION; row++) {
+      if (this.contains(this.solution[row][col].val, num)) {
+        if (this.solution[row][col].filled) debugger;
+        this.unique_set_val(row, col, 1 << num);
+      }
+    }
+  }
+
+  find_and_fill_squ(squ, num) {
+    const row_start = 3 * Math.floor(squ / 3);
+    const col_start = 3 * (squ % 3);
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (this.contains(this.solution[row_start + i][col_start + j].val, num)) {
+          if (this.solution[row_start + i][col_start + j].filled) debugger;
+          this.unique_set_val(row_start + i, col_start + j, 1 << num);
+        }
+      }
+    }
+  }
+
+  unique_set_val(row, col, bin_num, squ = this.calc_squ(row, col)) {
+    this.row_count[row][Math.log2(bin_num)] = 9;
+    this.col_count[col][Math.log2(bin_num)] = 9;
+    this.squ_count[squ][Math.log2(bin_num)] = 9;
+    this.solution[row][col].val = bin_num;
+    this.remove_mem(row, col, bin_num, squ);
+    this.solution[row][col].filled = true;
+    for (let i = 0; i < DIMENSION; i++) {
+      //remove from column
+      if (i != row) {
+        this.remove(i, col, bin_num);
+      }
+      //remove from row
+      if (i != col) {
+        this.remove(row, i, bin_num);
+      }
+    }
+    const row_start = 3 * Math.floor(row / 3);
+    const col_start = 3 * Math.floor(col / 3);
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (row_start + i != row && col_start + j != col) {
+          this.remove(row_start + i, col_start + j, bin_num);
+        }
+      }
+    }
+  }
+
 
   check_complete() {
     for (let i = 0; i < DIMENSION; i++) {
@@ -364,7 +569,33 @@ class RandomCreator {
     return true;
   }
 
+  check_invariant(row, col, bin_num = this.solution[row][col].val, squ = this.calc_squ(row, col)) {
+    //0 if num is already filled in
+    if  ((this.row_mem[row] & bin_num) != 0 
+      && (this.col_mem[col] & bin_num) != 0
+      && (this.squ_mem[squ] & bin_num) != 0) {
+        return true;
+      }
+      if ((this.row_mem[row] & bin_num) == 0) console.log("error in row");
+      if ((this.col_mem[col] & bin_num) == 0) console.log("error in col");
+      if ((this.squ_mem[squ] & bin_num) == 0) console.log("error in squ");
+      debugger;
+      return false;
+  }
+
+  contains(bin, num) {
+    return ((bin & (1 << num)) != 0) ? true : false;
+  }
+
   /*
+    solve() {
+    this.curr_row = randomInt(9);
+    this.curr_col = randomInt(9);
+    let num = randomInt(9) + 1;
+    this.set(this.calc_squ(this.curr_row, this.curr_col), num);
+    this.fillBoard();
+  }
+
   fillBoard() {
     if (this.num_filled == DIMENSION * DIMENSION) {
       return true
@@ -388,13 +619,8 @@ class RandomCreator {
     this.problem[this.curr_row][this.curr_col] = 0;
     return false;
   }
-  */
 
-  calc_squ(row, col) {
-    return 3 * Math.floor(row / 3) + Math.floor(col / 3);
-  }
-
-  set(squ, num) {
+    set(squ, num) {
     this.problem[this.curr_row][this.curr_col] = num;
     this.row_mem[this.curr_row] -= 1 << num;
     this.col_mem[this.curr_col] -= 1 << num;
@@ -408,8 +634,10 @@ class RandomCreator {
     this.squ_mem[squ] += 1 << num;
     this.num_filled--;
   }
+  */
 
-  /*dumb_check_inv() {
+  /*
+  dumb_check_inv() {
     var sum = 0;
     for (let i = 0; i < DIMENSION; i++) {
       sum = 0;
@@ -435,43 +663,6 @@ class RandomCreator {
       if (sum != COMPLETE) return false;
     }
     return true;
-  }
-  */
-
-  check_invariant(row, col, num = this.solution[row][col].val, squ = this.calc_squ(row, col)) {
-    //0 if num is already filled in
-    if  ((this.row_mem[row] & num) != 0 
-      && (this.col_mem[col] & num) != 0
-      && (this.squ_mem[squ] & num) != 0) {
-        return true;
-      }
-      if ((this.row_mem[row] & num) == 0) console.log("error in row");
-      if ((this.col_mem[col] & num) == 0) console.log("error in col");
-      if ((this.squ_mem[squ] & num) == 0) console.log("error in squ");
-      debugger;
-      return false;
-  }
-
-
-  /*
-
-  check_unique(row, col) {
-    if (this.solution[row][col].filled) {
-      return;
-    }
-    if (this.solution[row][col].val == 0) {
-      throw 'Puzzle not solvable1';
-    }
-    if (check_pow2(this.solution[row][col].val)
-      && !this.attempt_set_value(row, col)) {
-      throw 'Puzzle not solvable2';
-    }
-  }
-
-  contains(bin, num) {
-    return check_pow2(bin & (1 << num));
-  }
-
   }
   */
 }

@@ -7,11 +7,11 @@ url = location.href;
   document.getElementById("ptype").innerHTML = "Problem: " + question_type;
 
   if (question_type == "Random") {
-    creator = new RandomCreator();
+    creator = new RandomCreator(difficulty);
     var gen_solution = creator.createRandom();
-    var gen_problem = creator.createProblem(difficulty); //returns object with problem and solution
+    document.getElementById("solution").value = gen_solution;
+    var gen_problem = creator.createProblem(); //returns object with problem and solution
     document.getElementById("problem").value = gen_problem;
-    document.getElementById("solution").value = gen_solution; //TODO
       set_table();
   }
 
