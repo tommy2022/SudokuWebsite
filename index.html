@@ -13,36 +13,30 @@
 	  <table width="30%">
 	    <tr><td>
 	      <details>
-	        <summary> Easy </summary>
+	        <summary> 9 x 9 Board </summary>
 	          <ul>
-	            <li> <input type="button" value="Random" onclick="myFunction('Easy', 'Random')"/></li>
-	            <li> <input type="button" value="Problem 1" onclick="myFunction('Easy', '1')"/></li>
-	            <li> <input type="button" value="Problem 2" onclick="myFunction('Easy', '2')"/></li>
+	            <li> <input type="button" value="Easy" onclick="myFunction('Easy')"/></li>
+	            <li> <input type="button" value="Medium" onclick="myFunction('Medium')"/></li>
+	            <li> <input type="button" value="Hard" onclick="myFunction('Hard')"/></li>
 	          </ul>
 	      </details>
 	    </td></tr>
 	    <tr><td>
 	      <details>
-	        <summary> Medium </summary>
+			<summary> 16 x 16 Board </summary>
+			*These puzzles may take a while to generate <br />
+			Coming soon
 	        <ul>
-	           	<li> <input type="button" value="Random" onclick="myFunction('Medium', 'Random')"/></li>
-	            <li> <input type="button" value="Problem 1" onclick="myFunction('Medium', '1')"/></li>
-	            <li> <input type="button" value="Problem 2" onclick="myFunction('Medium', '2')"/></li>
+	           	<li> <input type="button" value="Easy" onclick="myFunction('Easy')" disabled/></li>
+	            <li> <input type="button" value="Medium" onclick="myFunction('Medium')" disabled/></li>
+	            <li> <input type="button" value="Hard" onclick="myFunction('Hard')" disabled/></li>
 	        </ul>
-	      </details>
-	    </td></tr>
-	    <tr><td>
-	      <details>
-	        <summary> Hard </summary>
-	        <ul>
-	            <li> <input type="button" value="Problem 1" onclick="myFunction('Hard', '1')"/></li>
-	            <li> <input type="button" value="Problem 2" onclick="myFunction('Hard', '2')"/></li>
 	      </details>
 	    </td></tr>
 	  </table>
   <script>
-  function myFunction(diff, type){
-        window.location.href = "puzzle.html?difficulty=" + diff +"&type=" + type;
+  function myFunction(diff){
+        window.location.href = "puzzle.html?difficulty=" + diff;
 	}
   </script>
 
