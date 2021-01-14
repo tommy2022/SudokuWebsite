@@ -15,9 +15,9 @@
 	      <details>
 	        <summary> 9 x 9 Board </summary>
 	          <ul>
-	            <li> <input type="button" value="Easy" onclick="myFunction('Easy')"/></li>
-	            <li> <input type="button" value="Medium" onclick="myFunction('Medium')"/></li>
-	            <li> <input type="button" value="Hard" onclick="myFunction('Hard')"/></li>
+	            <li> <input type="button" value="Easy" onclick="myFunction('Easy', 9)"/></li>
+	            <li> <input type="button" value="Medium" onclick="myFunction('Medium', 9)"/></li>
+	            <li> <input type="button" value="Hard" onclick="myFunction('Hard', 9)"/></li>
 	          </ul>
 	      </details>
 	    </td></tr>
@@ -27,16 +27,16 @@
 			*These puzzles may take a while to generate <br />
 			Coming soon
 	        <ul>
-	           	<li> <input type="button" value="Easy" onclick="myFunction('Easy')" disabled/></li>
-	            <li> <input type="button" value="Medium" onclick="myFunction('Medium')" disabled/></li>
-	            <li> <input type="button" value="Hard" onclick="myFunction('Hard')" disabled/></li>
+	           	<li> <input type="button" value="Easy" onclick="myFunction('Easy', 16)" disabled/></li>
+	            <li> <input type="button" value="Medium" onclick="myFunction('Medium', 16)" disabled/></li>
+	            <li> <input type="button" value="Hard" onclick="myFunction('Hard', 16)" disabled/></li>
 	        </ul>
 	      </details>
 	    </td></tr>
 	  </table>
   <script>
-  function myFunction(diff){
-        window.location.href = "puzzle.html?difficulty=" + diff;
+  function myFunction(diff, dim){
+        window.location.href = `puzzle.html?difficulty=${diff}&dim=${dim}`;
 	}
   </script>
 

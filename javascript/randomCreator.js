@@ -192,13 +192,13 @@ class RandomCreator {
   get_num_fill() {
     var filledCount = randomInt(3);
     if (this.difficulty == DiffEnum.Easy) {
-      filledCount += 45;
+      filledCount += 40;
     }
     else if (this.difficulty == DiffEnum.Medium) {
-      filledCount += 37;
+      filledCount += 33;
     }
     else if (this.difficulty == DiffEnum.Hard) {
-      filledCount += 30;
+      filledCount += 28;
     }
     return filledCount;
   }
