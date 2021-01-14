@@ -207,7 +207,6 @@ class RandomCreator {
     //let row = this.numbers[this.index++];
     //let col = this.numbers[this.index++];
     return [randomInt(9), randomInt(9)];
-    return [row, col];
   }
 
   createProblem() {
@@ -228,7 +227,6 @@ class RandomCreator {
       this.problem[row][col] = 0;
     }
     while (!this.drop());
-    debugger;
     return this.stringifyProblem();
   }
 
@@ -246,7 +244,6 @@ class RandomCreator {
     this.num_filled--;
     var row, col;
     for (let reps = 0; reps < NUM_REPS; reps++) {
-      this.num_solutions = 0;
       do {
         [row, col] = this.non_random();
         //row = randomInt(9);
@@ -255,7 +252,12 @@ class RandomCreator {
 
       let val = this.problem[row][col];
       this.problem[row][col] = 0;
-      if (this.try_solve()) {
+
+      const num_fill_rec = this.num_filled;
+      const solved = this.try_solve();
+      this.num_filled = num_fill_rec;
+
+      if (solved) {
         if (this.drop()) return true;
       }
       this.problem[row][col] = val;
@@ -306,7 +308,6 @@ class RandomCreator {
   }
 
   try_solve() {
-
     this.level = DiffEnum.Easy;
     this.reset_eliminate_solver();
     this.solve_eliminate_setup();
@@ -325,12 +326,12 @@ class RandomCreator {
       this.solve_unique();
       this.solve_eliminate();
     } while(this.unique_solver_change)
-
     if (this.check_complete()) {
       return true;
     }
     if (this.difficulty == DiffEnum.Medium) return false;
 
+    this.num_solutions = 0;
     this.level = DiffEnum.Hard;
     this.backtrack();
     return (this.num_solutions == 1) ? true : false;
@@ -399,6 +400,7 @@ class RandomCreator {
       debugger;
       throw "???? something wrong";
     }
+    this.num_filled++;
     this.remove_mem(row, col, bin_num, squ);
     this.solution[row][col].filled = true;
     for (let i = 0; i < DIMENSION; i++) {
@@ -530,6 +532,7 @@ class RandomCreator {
   }
 
   unique_set_val(row, col, bin_num, squ = this.calc_squ(row, col)) {
+    this.num_filled++;
     this.row_count[row][Math.log2(bin_num)] = 9;
     this.col_count[col][Math.log2(bin_num)] = 9;
     this.squ_count[squ][Math.log2(bin_num)] = 9;
@@ -576,16 +579,57 @@ class RandomCreator {
       && (this.squ_mem[squ] & bin_num) != 0) {
         return true;
       }
-      if ((this.row_mem[row] & bin_num) == 0) console.log("error in row");
-      if ((this.col_mem[col] & bin_num) == 0) console.log("error in col");
-      if ((this.squ_mem[squ] & bin_num) == 0) console.log("error in squ");
-      debugger;
       return false;
   }
 
   contains(bin, num) {
     return ((bin & (1 << num)) != 0) ? true : false;
   }
+
+  find_next_open(row, col) {
+    do {
+      col = (col + 1) % 9;
+      row += (col == 0) ? 1 : 0;
+      console.log(row,col);
+      console.log(this.num_filled);
+    } while (this.solution[row][col].filled);
+    return [row, col];
+  }
+
+  backtrack(row = 0, col = 0) {
+    if (this.num_filled == DIMENSION * DIMENSION) {
+      this.num_solutions++;
+      //return true if no longer backtrack needed. (Found 2 solutions. not good)
+      //return false if keep going
+      return this.num_solutions != 1;
+    }
+    [row, col] = this.find_next_open(row, col)
+    for (let num = 1; num <= DIMENSION; num++) {
+      if (this.contains(this.solution[row][col].val, num) 
+      && this.check_invariant(row, col, 1 << num)) {
+        this.set(row, col, num);
+        if (this.backtrack(row, col)) return true;
+        this.unset(row, col, num);
+      }
+    }
+    return false;
+  }
+
+  set(row, col, num, squ = this.calc_squ(row, col)) {
+    this.solution[row][col].val = num;
+    this.row_mem[row] -= 1 << num;
+    this.col_mem[col] -= 1 << num;
+    this.squ_mem[squ] -= 1 << num;
+    this.num_filled++;
+  }
+
+  unset(row, col, num, squ = this.calc_squ(row, col)) {
+    this.row_mem[row] += 1 << num;
+    this.col_mem[col] += 1 << num;
+    this.squ_mem[squ] += 1 << num;
+    this.num_filled--;
+  }
+
 
   /*
     solve() {
@@ -620,20 +664,6 @@ class RandomCreator {
     return false;
   }
 
-    set(squ, num) {
-    this.problem[this.curr_row][this.curr_col] = num;
-    this.row_mem[this.curr_row] -= 1 << num;
-    this.col_mem[this.curr_col] -= 1 << num;
-    this.squ_mem[squ] -= 1 << num;
-    this.num_filled++;
-  }
-
-  unset(squ, num) {
-    this.row_mem[this.curr_row] += 1 << num;
-    this.col_mem[this.curr_col] += 1 << num;
-    this.squ_mem[squ] += 1 << num;
-    this.num_filled--;
-  }
   */
 
   /*
