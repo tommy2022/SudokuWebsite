@@ -1,3 +1,5 @@
+dimension = 9;
+
 function onclickTd(td) {
 	selected = document.getElementById("selected");
 	if (selected.value != "find1") {
@@ -59,7 +61,6 @@ function delete_highlight_rowcol(id) {
 }
 
 function eliminate_options(id){
-
 	var row = Math.floor(id / 9);
 	var column = id % 9;
 	var list = new LinkedList();
