@@ -110,7 +110,6 @@ class RandomCreator {
     let col = randomInt(3) + j * 3;
     this.swap(row, col, row + 1, col);
     this.find_duplicate_row(row, col);
-    //console.log(this.dumb_check_inv());
   }
 
   swap_row(i, j) {
@@ -118,7 +117,6 @@ class RandomCreator {
     let row = randomInt(3) + j * 3;
     this.swap(row, col, row, col + 1);
     this.find_duplicate_col(row, col);
-    //console.log(this.dumb_check_inv());
   }
 
   /* denote SUM = sum of int from 1 to 9
@@ -590,8 +588,6 @@ class RandomCreator {
     do {
       col = (col + 1) % 9;
       row += (col == 0) ? 1 : 0;
-      console.log(row,col);
-      console.log(this.num_filled);
     } while (this.solution[row][col].filled);
     return [row, col];
   }
@@ -629,70 +625,4 @@ class RandomCreator {
     this.squ_mem[squ] += 1 << num;
     this.num_filled--;
   }
-
-
-  /*
-    solve() {
-    this.curr_row = randomInt(9);
-    this.curr_col = randomInt(9);
-    let num = randomInt(9) + 1;
-    this.set(this.calc_squ(this.curr_row, this.curr_col), num);
-    this.fillBoard();
-  }
-
-  fillBoard() {
-    if (this.num_filled == DIMENSION * DIMENSION) {
-      return true
-    }
-    this.curr_col = (this.curr_col + 1) % 9;
-    this.curr_row += (this.curr_col == 0) ? 1 : 0;
-    if (this.problem[this.curr_row][this.curr_col] == 0) {
-      const squ = this.calc_squ(this.curr_row, this.curr_col);
-      for (let num = 1; num <= 9; num++) {
-        if (!this.check_invariant(squ, num)) continue;
-        this.set(squ, num);
-        if (this.fillBoard()) return true;
-        this.unset(squ, num);
-      }
-    }
-    this.curr_col = (this.curr_col == 0) ? 8 : this.curr_col - 1;
-    this.curr_row -= (this.curr_col == 8) ? 1 : 0;
-    if (this.curr_row == -1) debugger;
-    console.log("row: ", this.curr_row);
-    console.log("col: ", this.curr_col);
-    this.problem[this.curr_row][this.curr_col] = 0;
-    return false;
-  }
-
-  */
-
-  /*
-  dumb_check_inv() {
-    var sum = 0;
-    for (let i = 0; i < DIMENSION; i++) {
-      sum = 0;
-      for (let j = 0; j < DIMENSION; j++) {
-        sum += (1 << this.problem[i][j]);
-      }
-      if (sum != COMPLETE) return false;
-    }
-    for (let i = 0; i < DIMENSION; i++) {
-      sum = 0;
-      for (let j = 0; j < DIMENSION; j++) {
-        sum += (1 << this.problem[j][i]);
-      }
-      if (sum != COMPLETE) return false;
-    }
-    for (let i = 0; i < DIMENSION; i++) {
-      sum = 0;
-      for (let row = 3 * (Math.floor(i / 3)); row < 3 * (Math.floor(i / 3)) + 3; row++) {
-        for (let col = 3 * (i % 3); col < 3 * (i % 3) + 3; col++) {
-          sum += (1 << this.problem[row][col]);
-        }
-      }
-      if (sum != COMPLETE) return false;
-    }
-    return true;
-  }
-  */
 }
